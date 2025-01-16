@@ -28,12 +28,9 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     document.removeEventListener("pointerup", this.onPointerUp);
     document.addEventListener("pointerup", this.onPointerUp);
 
-    const { x, y } = this.props.store; // Assuming store.x and store.y are the panning offsets
-
-    // Get the mouse position relative to the canvas container
     const rect = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left - x; // Adjust by panning offset (x)
-    const mouseY = e.clientY - rect.top - y; // Adjust by panning offset (y)
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
     this.handleCanvasClick(mouseX, mouseY);
   };
@@ -53,7 +50,6 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
 
     this.props.store.x = this.props.store.x + e.movementX;
     this.props.store.y = this.props.store.y + e.movementY;
-    console.log(this.props.store.x, this.props.store.y);
     this.setState({ showPanel: false, isPanelVisible: false });
   };
 
@@ -72,11 +68,12 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
   };
 
   handleOptionSelect = (type: "text" | "video") => {
-    const { mouseX, mouseY } = this.state;
+    const x = this.state.mouseX - this.props.store.x;
+    const y = this.state.mouseY - this.props.store.y;
     if (type == "text") {
-      this.props.store.addTextNode(mouseX, mouseY);
+      this.props.store.addTextNode(x, y);
     } else if (type == "video") {
-      this.props.store.addVideoNode(mouseX, mouseY);
+      this.props.store.addVideoNode(x, y);
     }
   };
 

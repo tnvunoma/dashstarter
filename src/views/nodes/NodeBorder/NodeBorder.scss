@@ -1,0 +1,11 @@
+.node-border {
+    position: absolute;
+    border: 5px solid rgba(0, 0, 0, 0.5); 
+    // pointer-events: auto; 
+    width: 92%;
+    height: 90%;
+
+    &:hover {
+      cursor: move; 
+    }
+  }
