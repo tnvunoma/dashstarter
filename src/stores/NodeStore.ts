@@ -19,6 +19,12 @@ export class NodeStore {
     public y: number = 0;
 
     @observable
+    public scaleX: number = 1; 
+
+    @observable
+    public scaleY: number = 1;
+
+    @observable
     public width: number = 0;
 
     @observable
@@ -26,6 +32,11 @@ export class NodeStore {
 
     @computed
     public get transform(): string {
-        return "translate(" + this.x + "px, " + this.y + "px)";
+        return "translate(" + this.x + "px, " + this.y + "px)" + " scale(" + this.scaleX + "," + this.scaleY + ")" ;
+    }
+
+    @computed
+    public get resize(): string {
+        return "scale(" + this.scaleX + "," + this.scaleY + ")" ;
     }
 }

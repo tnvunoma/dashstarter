@@ -36,9 +36,9 @@ export class NodeBorder extends React.Component<NodeBorderProps> {
     e.preventDefault();
     if (!this.isPointerDown) return;
 
-    // should be resizing nodes but isn't
-    this.props.store.width += e.movementX;
-    this.props.store.height += e.movementY;
+    // Calculate how much the mouse has moved
+    this.props.store.scaleX += e.movementX / 100;
+    this.props.store.scaleY += e.movementY / 100;
   };
 
   render() {

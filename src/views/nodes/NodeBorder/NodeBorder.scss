@@ -1,9 +1,8 @@
 .node-border {
     position: absolute;
-    border: 5px solid rgba(0, 0, 0, 0.5); 
-    // pointer-events: auto; 
-    width: 92%;
-    height: 90%;
+    border: 2px solid rgba(0, 0, 0, 0.5); 
+    width: 93%;
+    height: 92%;
 
     &:hover {
       cursor: move; 

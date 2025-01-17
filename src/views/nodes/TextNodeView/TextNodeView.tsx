@@ -24,8 +24,9 @@ export class TextNodeView extends React.Component<TextNodeProps> {
         }}
       >
         <TopBar store={store} />
+        <NodeBorder store={store} />
+
         <div className="scroll-box">
-          <NodeBorder store={store} />
           <div className="content">
             <h3 className="title">{store.title}</h3>
             <p className="paragraph">{store.text}</p>
