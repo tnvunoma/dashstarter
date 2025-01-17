@@ -1,0 +1,11 @@
+.bottom-bar {
+    position: absolute;
+    background: palegreen;
+    width: 100%;
+    height: 20px;
+    bottom: 0;
+
+    &:hover {
+      cursor: move; 
+    }
+  }

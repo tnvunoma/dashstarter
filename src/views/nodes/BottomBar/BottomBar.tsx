@@ -1,14 +1,14 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import { NodeStore } from "../../../stores";
-import "./NodeBorder.scss";
+import "./BottomBar.scss";
 
-interface NodeBorderProps {
+interface BottomBarProps {
   store: NodeStore;
 }
 
 @observer
-export class NodeBorder extends React.Component<NodeBorderProps> {
+export class BottomBar extends React.Component<BottomBarProps> {
   private isPointerDown = false;
 
   onPointerDown = (e: React.PointerEvent): void => {
@@ -36,12 +36,13 @@ export class NodeBorder extends React.Component<NodeBorderProps> {
     e.preventDefault();
     if (!this.isPointerDown) return;
 
-    // Calculate how much the mouse has moved
-    this.props.store.scaleX += e.movementX / 100;
-    this.props.store.scaleY += e.movementY / 100;
+    this.props.store.width += e.movementX;
+    this.props.store.height += e.movementY;
+    this.props.store.x -= e.movementX / 2;
+    this.props.store.y -= e.movementY / 2;
   };
 
   render() {
-    return <div className="node-border" onPointerDown={this.onPointerDown} />;
+    return <div className="bottom-bar" onPointerDown={this.onPointerDown} />;
   }
 }

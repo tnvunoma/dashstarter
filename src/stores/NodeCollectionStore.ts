@@ -7,11 +7,14 @@ import { StoreType } from "./NodeStore";
 export class NodeCollectionStore extends NodeStore {
 
     @observable
+    public scale: number = 1;
+
+    @observable
     public nodes: NodeStore[] = new Array<NodeStore>();
 
     @computed
     public get transform(): string {
-        return "translate(" + this.x + "px," + this.y + "px)" ;
+        return "translate(" + this.x + "px," + this.y + "px)" + " scale(" + this.scale + ")";
     }
 
     @action

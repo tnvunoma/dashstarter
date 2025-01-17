@@ -4,7 +4,7 @@ import { StaticTextNodeStore } from "../../../stores";
 import { TopBar } from "../TopBar";
 import "./../NodeView.scss";
 import "./TextNodeView.scss";
-import { NodeBorder } from "../NodeBorder";
+import { BottomBar } from "../BottomBar";
 
 interface TextNodeProps {
   store: StaticTextNodeStore;
@@ -17,14 +17,18 @@ export class TextNodeView extends React.Component<TextNodeProps> {
     return (
       <div
         className="node textNode"
-        style={{ transform: store.transform }}
+        style={{
+          height: store.height,
+          width: store.width,
+          transform: store.transform,
+        }}
         onWheel={(e: React.WheelEvent) => {
           e.stopPropagation();
           e.preventDefault();
         }}
       >
         <TopBar store={store} />
-        <NodeBorder store={store} />
+        <BottomBar store={store} />
 
         <div className="scroll-box">
           <div className="content">
