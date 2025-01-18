@@ -71,11 +71,15 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     const x = this.state.mouseX - this.props.store.x;
     const y = this.state.mouseY - this.props.store.y;
     if (type == "text") {
-      this.props.store.addTextNode(x, y);
+      this.props.store.addToCollection(StoreType.Text, x, y);
     } else if (type == "video") {
-      this.props.store.addVideoNode(x, y);
+      this.props.store.addToCollection(StoreType.Video, x, y);
     }
   };
+
+  handleDismissButton = (nodeId: string) => {
+    this.props.store.deleteNodeById(nodeId);
+  }
 
   render() {
     let store = this.props.store;
@@ -94,6 +98,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
                     <TextNodeView
                       key={nodeStore.Id}
                       store={nodeStore as StaticTextNodeStore}
+                      onDismiss={this.handleDismissButton}
                     />
                   );
 
@@ -102,6 +107,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
                     <VideoNodeView
                       key={nodeStore.Id}
                       store={nodeStore as VideoNodeStore}
+                      onDismiss={this.handleDismissButton}
                     />
                   );
 

@@ -5,13 +5,19 @@ import { TopBar } from "../TopBar";
 import "./../NodeView.scss";
 import "./TextNodeView.scss";
 import { BottomBar } from "../BottomBar";
+import { DismissButton } from "../DismissButton";
 
 interface TextNodeProps {
   store: StaticTextNodeStore;
+  onDismiss: (nodeId: string) => void;
 }
 
 @observer
 export class TextNodeView extends React.Component<TextNodeProps> {
+  handleDismiss = (nodeId: string) => {
+    this.props.onDismiss(nodeId);
+  };
+
   render() {
     let store = this.props.store;
     return (
@@ -27,7 +33,14 @@ export class TextNodeView extends React.Component<TextNodeProps> {
           e.preventDefault();
         }}
       >
-        <TopBar store={store} />
+        <div className="topbar-dismiss-container">
+          <TopBar store={this.props.store} />
+          <DismissButton
+            store={this.props.store}
+            onDismiss={this.handleDismiss}
+          />
+        </div>
+        
         <BottomBar store={store} />
 
         <div className="scroll-box">

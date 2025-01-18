@@ -4,6 +4,7 @@ import { StaticTextNodeStore } from "./StaticTextNodeStore";
 import { VideoNodeStore } from "./VideoNodeStore";
 import { StoreType } from "./NodeStore";
 
+
 export class NodeCollectionStore extends NodeStore {
 
     @observable
@@ -18,32 +19,38 @@ export class NodeCollectionStore extends NodeStore {
     }
 
     @action
-    public addNodes(stores: NodeStore[]): void {
-        this.nodes.push(...stores); // This is equivalent to: stores.forEach(store => this.nodes.push(store));
-
+    public addToCollection(node: StoreType, x: number, y: number ): void {
+        switch (node) {
+            case StoreType.Text:
+                const textNode = new StaticTextNodeStore({
+                    type: StoreType.Text,
+                    x: x,
+                    y: y,
+                    title: "New Text Box",
+                    text: "",
+                })
+                this.nodes.push(textNode);
+                break;
+            case StoreType.Video:   
+                const videoNode = new VideoNodeStore({
+                    type: StoreType.Video,
+                    x: x,
+                    y: y,
+                    title: "New Video",
+                    url: "", 
+                });
+                this.nodes.push(videoNode); 
+                break;
+            default:
+                break;            
+        }
     }
 
-  @action
-  public addTextNode(x: number, y: number) {
-    const newNode = new StaticTextNodeStore({
-      type: StoreType.Text,
-      x: x,
-      y: y,
-      title: "New Text Box",
-      text: "",
-    });
-    this.nodes.push(newNode); 
-  }
-
-@action
-  addVideoNode(x: number, y: number) {
-    const newNode = new VideoNodeStore({
-      type: StoreType.Video,
-      x: x,
-      y: y,
-      title: "New Video",
-      url: "", 
-    });
-    this.nodes.push(newNode); 
-  }
+    @action
+    public deleteNodeById(nodeId: string): void {
+        const indexToDelete = this.nodes.findIndex(node => node.Id === nodeId);
+        if (indexToDelete !== -1) {
+            this.nodes.splice(indexToDelete, 1); // Remove the node at the index
+        }
+    }
 }

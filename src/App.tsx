@@ -28,7 +28,7 @@ let nodes: NodeStore[] = [];
 // }
 
 // add set of 300 nodes to node collection
-mainNodeCollection.addNodes(nodes);
+// mainNodeCollection.addNodes(nodes);
 
 export class App extends React.Component {
   render() {

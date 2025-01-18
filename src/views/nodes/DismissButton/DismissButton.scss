@@ -1,0 +1,13 @@
+.topbar-dismiss-container {
+    position: relative; 
+  }
+  
+  .dismiss-button {
+    position: absolute; 
+    top: 0;
+    right: 0;           
+    background: red;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }

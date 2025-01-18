@@ -5,13 +5,19 @@ import "./../NodeView.scss";
 import { TopBar } from "./../TopBar";
 import "./VideoNodeView.scss";
 import { BottomBar } from "../BottomBar";
+import { DismissButton } from "../DismissButton";
 
 interface VideoNodeProps {
   store: VideoNodeStore;
+  onDismiss: (nodeId: string) => void;
 }
 
 @observer
 export class VideoNodeView extends React.Component<VideoNodeProps> {
+  handleDismiss = (nodeId: string) => {
+    this.props.onDismiss(nodeId);
+  };
+
   render() {
     let store = this.props.store;
     return (
@@ -24,6 +30,7 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
         }}
       >
         <TopBar store={store} />
+        <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
 
         <div className="scroll-box">

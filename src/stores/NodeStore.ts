@@ -3,7 +3,10 @@ import { Utils } from "../Utils";
 
 export enum StoreType {
     Text, 
-    Video
+    Video,
+    Image,
+    Website,
+    Collection
 }
 
 export class NodeStore {
@@ -28,5 +31,4 @@ export class NodeStore {
     public get transform(): string {
         return "translate(" + this.x + "px, " + this.y + "px)";
     }
-
 }
