@@ -5,7 +5,7 @@ interface OptionsPanelProps {
   mouseX: number;
   mouseY: number;
   showPanel: boolean;
-  onOptionSelect: (type: "text" | "video") => void;
+  onOptionSelect: (type: string) => void;
 }
 
 export class OptionsPanel extends React.Component<OptionsPanelProps> {
@@ -14,7 +14,7 @@ export class OptionsPanel extends React.Component<OptionsPanelProps> {
     e.preventDefault();
   };
 
-  handleOptionsClick = (type: "text" | "video") => {
+  handleOptionsClick = (type: string) => {
     this.props.onOptionSelect(type);
   };
 
@@ -25,11 +25,23 @@ export class OptionsPanel extends React.Component<OptionsPanelProps> {
     }
     return (
       <div className="options-panel" style={{ top: mouseY - 35, left: mouseX }}>
-        <button onPointerDown={() => this.handleOptionsClick("text")}>
+        <button
+          onPointerDown={() => this.handleOptionsClick("text")}
+          style={{ cursor: "pointer" }}
+        >
           Add Text
         </button>
-        <button onPointerDown={() => this.handleOptionsClick("video")}>
+        <button
+          onPointerDown={() => this.handleOptionsClick("video")}
+          style={{ cursor: "pointer" }}
+        >
           Add Video
+        </button>
+        <button
+          onPointerDown={() => this.handleOptionsClick("image")}
+          style={{ cursor: "pointer" }}
+        >
+          Add Image
         </button>
       </div>
     );

@@ -2,6 +2,7 @@ import { computed, observable, action } from "mobx";
 import { NodeStore } from "./NodeStore";
 import { StaticTextNodeStore } from "./StaticTextNodeStore";
 import { VideoNodeStore } from "./VideoNodeStore";
+import { ImageNodeStore } from "./ImageNodeStore";
 import { StoreType } from "./NodeStore";
 
 
@@ -40,6 +41,16 @@ export class NodeCollectionStore extends NodeStore {
                     url: "", 
                 });
                 this.nodes.push(videoNode); 
+                break;
+            case StoreType.Image:
+                const imgNode = new ImageNodeStore( {
+                    type: StoreType.Image,
+                    x: x,
+                    y: y,
+                    title: "New Image",
+                    url: ""
+                })
+                this.nodes.push(imgNode)
                 break;
             default:
                 break;            

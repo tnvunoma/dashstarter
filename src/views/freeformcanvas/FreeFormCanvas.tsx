@@ -67,19 +67,21 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     }
   };
 
-  handleOptionSelect = (type: "text" | "video") => {
+  handleOptionSelect = (type: string) => {
     const x = this.state.mouseX - this.props.store.x;
     const y = this.state.mouseY - this.props.store.y;
     if (type == "text") {
       this.props.store.addToCollection(StoreType.Text, x, y);
     } else if (type == "video") {
       this.props.store.addToCollection(StoreType.Video, x, y);
+    } else if (type == "image") {
+      this.props.store.addToCollection(StoreType.Image, x, y);
     }
   };
 
   handleDismissButton = (nodeId: string) => {
     this.props.store.deleteNodeById(nodeId);
-  }
+  };
 
   render() {
     let store = this.props.store;
