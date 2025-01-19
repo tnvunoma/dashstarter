@@ -4,6 +4,7 @@ import { StaticTextNodeStore } from "./StaticTextNodeStore";
 import { VideoNodeStore } from "./VideoNodeStore";
 import { ImageNodeStore } from "./ImageNodeStore";
 import { StoreType } from "./NodeStore";
+import { WebNodeStore } from "./WebNodeStore";
 
 
 export class NodeCollectionStore extends NodeStore {
@@ -52,6 +53,16 @@ export class NodeCollectionStore extends NodeStore {
                 })
                 this.nodes.push(imgNode)
                 break;
+            case StoreType.Website:
+                const webNode = new WebNodeStore( {
+                    type: StoreType.Website,
+                    x: x,
+                    y: y,
+                    title: "New Website",
+                    url: ""
+                })
+                this.nodes.push(webNode)
+                break;
             default:
                 break;            
         }
@@ -59,9 +70,6 @@ export class NodeCollectionStore extends NodeStore {
 
     @action
     public deleteNodeById(nodeId: string): void {
-        const indexToDelete = this.nodes.findIndex(node => node.Id === nodeId);
-        if (indexToDelete !== -1) {
-            this.nodes.splice(indexToDelete, 1); // Remove the node at the index
-        }
+        this.nodes = this.nodes.filter(node => node.Id !== nodeId);
     }
 }

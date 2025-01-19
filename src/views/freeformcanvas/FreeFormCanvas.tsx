@@ -5,8 +5,12 @@ import {
   StaticTextNodeStore,
   StoreType,
   VideoNodeStore,
+  ImageNodeStore,
+  WebNodeStore,
 } from "../../stores";
 import { TextNodeView, VideoNodeView } from "../nodes";
+import { ImageNodeView } from "../nodes/ImageNodeView";
+import { WebNodeView } from "../nodes/WebNodeView";
 import "./FreeFormCanvas.scss";
 import { OptionsPanel } from "../components/OptionsPanel";
 
@@ -76,7 +80,9 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
       this.props.store.addToCollection(StoreType.Video, x, y);
     } else if (type == "image") {
       this.props.store.addToCollection(StoreType.Image, x, y);
-    }
+    } else if (type == "website") {
+        this.props.store.addToCollection(StoreType.Website, x, y);
+      }
   };
 
   handleDismissButton = (nodeId: string) => {
@@ -109,6 +115,24 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
                     <VideoNodeView
                       key={nodeStore.Id}
                       store={nodeStore as VideoNodeStore}
+                      onDismiss={this.handleDismissButton}
+                    />
+                  );
+
+                case StoreType.Image:
+                  return (
+                    <ImageNodeView
+                      key={nodeStore.Id}
+                      store={nodeStore as ImageNodeStore}
+                      onDismiss={this.handleDismissButton}
+                    />
+                  );
+
+                case StoreType.Website:
+                  return (
+                    <WebNodeView
+                      key={nodeStore.Id}
+                      store={nodeStore as WebNodeStore}
                       onDismiss={this.handleDismissButton}
                     />
                   );

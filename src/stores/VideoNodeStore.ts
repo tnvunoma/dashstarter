@@ -1,17 +1,9 @@
-import { observable } from "mobx";
-import { NodeStore } from "./NodeStore";
+import { ImageNodeStore } from "./ImageNodeStore";
 
-export class VideoNodeStore extends NodeStore {
+export class VideoNodeStore extends ImageNodeStore {
 
     constructor(initializer: Partial<VideoNodeStore>) {
-        super();
-        Object.assign(this, initializer);
+        super(initializer);
     }
-
-    @observable
-    public title: string | undefined;
-
-    @observable
-    public url: string | undefined;
 
 }
