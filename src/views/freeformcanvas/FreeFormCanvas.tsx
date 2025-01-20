@@ -21,7 +21,12 @@ interface FreeFormProps {
 @observer
 export class FreeFormCanvas extends React.Component<FreeFormProps> {
   private isPointerDown: boolean | undefined;
-  state = { showPanel: false, isPanelVisible: false, mouseX: 0, mouseY: 0 };
+  state = {
+    showPanel: false,
+    isPanelVisible: false,
+    mouseX: 0,
+    mouseY: 0,
+  };
 
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
@@ -81,8 +86,8 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     } else if (type == "image") {
       this.props.store.addToCollection(StoreType.Image, x, y);
     } else if (type == "website") {
-        this.props.store.addToCollection(StoreType.Website, x, y);
-      }
+      this.props.store.addToCollection(StoreType.Website, x, y);
+    }
   };
 
   handleDismissButton = (nodeId: string) => {
@@ -95,6 +100,9 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
       <div
         className="freeformcanvas-container"
         onPointerDown={this.onPointerDown}
+        // style={{
+        //   pointerEvents: this.state.disablePointerEvents ? "none" : "auto",
+        // }}
       >
         <div className="freeformcanvas" style={{ transform: store.transform }}>
           {
