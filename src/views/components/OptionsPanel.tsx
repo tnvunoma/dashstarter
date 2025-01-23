@@ -49,6 +49,12 @@ export class OptionsPanel extends React.Component<OptionsPanelProps> {
         >
           Add Website
         </button>
+        <button
+          onPointerDown={() => this.handleOptionsClick("collection")}
+          style={{ cursor: "pointer" }}
+        >
+          Add Collection
+        </button>
       </div>
     );
   }

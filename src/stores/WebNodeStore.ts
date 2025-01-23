@@ -1,9 +1,16 @@
-import { ImageNodeStore } from "./ImageNodeStore";
+import { observable } from "mobx";
+import { NodeStore } from "./NodeStore";
 
-export class WebNodeStore extends ImageNodeStore {
+export class WebNodeStore extends NodeStore {
 
     constructor(initializer: Partial<WebNodeStore>) {
-        super(initializer);
+        super();
+        Object.assign(this, initializer);
     }
 
+    @observable
+    public title: string | undefined;
+
+    @observable
+    public url: string | undefined;
 }

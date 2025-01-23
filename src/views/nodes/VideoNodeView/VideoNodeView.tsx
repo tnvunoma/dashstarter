@@ -50,27 +50,19 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
         <div className="scroll-box">
           <div className="content">
             <h3 className="title">{store.title}</h3>
-            {this.props.store.url ? (
-              <video
-                controls
-                style={{ width: "100%" }}
-                src={this.props.store.url}
-              />
+            {store.url ? (
+              <video controls style={{ width: "100%" }} src={store.url} />
             ) : (
-              <div
-                className="video-placeholder"
+              <img
+                src={store.placeholder}
+                alt="Upload new video"
                 onClick={() => document.getElementById("video-upload")?.click()}
-              >
-                <img
-                  src={this.props.store.placeholder}
-                  alt="Upload new video"
-                  style={{
-                    width: "100%",
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
-            )}{" "}
+                style={{
+                  width: "100%",
+                  cursor: "pointer",
+                }}
+              />
+            )}
           </div>
         </div>
         <input

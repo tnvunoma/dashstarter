@@ -1,6 +1,5 @@
 import { observable } from "mobx";
 import { NodeStore } from "./NodeStore";
-import { VideoNodeStore } from "./VideoNodeStore";
 
 export class ImageNodeStore extends NodeStore {
 
@@ -14,4 +13,7 @@ export class ImageNodeStore extends NodeStore {
 
     @observable
     public url: string | undefined;
+
+    @observable
+    public placeholder: string = "/uploadfile.png" ;
 }

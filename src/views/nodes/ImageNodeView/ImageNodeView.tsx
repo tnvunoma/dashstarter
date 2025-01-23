@@ -50,22 +50,18 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
           <div className="content">
             <h3 className="title">{store.title}</h3>
 
-            {this.props.store.url ? (
-              <img src={this.props.store.url} style={{ width: "100%" }} />
+            {store.url ? (
+              <img src={store.url} style={{ width: "100%" }} />
             ) : (
-              <div
-                className="image-placeholder"
+              <img
                 onClick={() => document.getElementById("image-upload")?.click()}
-              >
-                <img
-                  src={this.props.store.placeholder}
-                  alt="Upload new image"
-                  style={{
-                    width: "100%",
-                    cursor: "pointer",
-                  }}
-                />
-              </div>
+                src={store.placeholder}
+                alt="Upload new image"
+                style={{
+                  width: "100%",
+                  cursor: "pointer",
+                }}
+              />
             )}
           </div>
         </div>

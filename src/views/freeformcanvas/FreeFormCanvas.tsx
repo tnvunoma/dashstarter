@@ -11,8 +11,9 @@ import {
 import { TextNodeView, VideoNodeView } from "../nodes";
 import { ImageNodeView } from "../nodes/ImageNodeView";
 import { WebNodeView } from "../nodes/WebNodeView";
-import "./FreeFormCanvas.scss";
+import { CollectionNodeView } from "../nodes/CollectionNodeView";
 import { OptionsPanel } from "../components/OptionsPanel";
+import "./FreeFormCanvas.scss";
 
 interface FreeFormProps {
   store: NodeCollectionStore;
@@ -79,14 +80,24 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
   handleOptionSelect = (type: string) => {
     const x = this.state.mouseX - this.props.store.x;
     const y = this.state.mouseY - this.props.store.y;
-    if (type == "text") {
-      this.props.store.addToCollection(StoreType.Text, x, y);
-    } else if (type == "video") {
-      this.props.store.addToCollection(StoreType.Video, x, y);
-    } else if (type == "image") {
-      this.props.store.addToCollection(StoreType.Image, x, y);
-    } else if (type == "website") {
-      this.props.store.addToCollection(StoreType.Website, x, y);
+    switch (type) {
+      case "text":
+        this.props.store.addToCollection(StoreType.Text, x, y);
+        break;
+      case "video":
+        this.props.store.addToCollection(StoreType.Video, x, y);
+        break;
+      case "image":
+        this.props.store.addToCollection(StoreType.Image, x, y);
+        break;
+      case "website":
+        this.props.store.addToCollection(StoreType.Website, x, y);
+        break;
+      case "collection":
+        this.props.store.addToCollection(StoreType.Collection, x, y);
+        break;
+      default:
+        break;
     }
   };
 
@@ -100,9 +111,6 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
       <div
         className="freeformcanvas-container"
         onPointerDown={this.onPointerDown}
-        // style={{
-        //   pointerEvents: this.state.disablePointerEvents ? "none" : "auto",
-        // }}
       >
         <div className="freeformcanvas" style={{ transform: store.transform }}>
           {
@@ -141,6 +149,15 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
                     <WebNodeView
                       key={nodeStore.Id}
                       store={nodeStore as WebNodeStore}
+                      onDismiss={this.handleDismissButton}
+                    />
+                  );
+
+                case StoreType.Collection:
+                  return (
+                    <CollectionNodeView
+                      key={nodeStore.Id}
+                      store={nodeStore as NodeCollectionStore}
                       onDismiss={this.handleDismissButton}
                     />
                   );

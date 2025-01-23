@@ -1,19 +1,25 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { StaticTextNodeStore } from "../../../stores";
-import { TopBar } from "../TopBar";
 import "./../NodeView.scss";
-import "./TextNodeView.scss";
+import { TopBar } from "./../TopBar";
+import "./CollectionNodeView.scss";
+import { NodeCollectionStore } from "../../../stores";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
+import { FreeFormCanvas } from "../../freeformcanvas/FreeFormCanvas";
 
-interface TextNodeProps {
-  store: StaticTextNodeStore;
+interface CollectionNodeProp {
+  store: NodeCollectionStore;
   onDismiss: (nodeId: string) => void;
 }
 
 @observer
-export class TextNodeView extends React.Component<TextNodeProps> {
+export class CollectionNodeView extends React.Component<CollectionNodeProp> {
+  onPointerDown = (e: React.PointerEvent): void => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   handleDismiss = (nodeId: string) => {
     this.props.onDismiss(nodeId);
   };
@@ -22,23 +28,18 @@ export class TextNodeView extends React.Component<TextNodeProps> {
     let store = this.props.store;
     return (
       <div
-        className="node textNode"
+        className="node collectionNode"
         style={{
           height: store.height,
           width: store.width,
           transform: store.transform,
         }}
+        onPointerDown={this.onPointerDown}
       >
-        <TopBar store={store} />
+        <FreeFormCanvas store={store} />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
-
-        <div className="scroll-box">
-          <div className="content">
-            <h3 className="title">{store.title}</h3>
-            <p className="paragraph">{store.text}</p>
-          </div>
-        </div>
+        <TopBar store={store} />
       </div>
     );
   }

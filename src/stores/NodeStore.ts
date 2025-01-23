@@ -16,9 +16,6 @@ export class NodeStore {
     public type: StoreType | null = null;
 
     @observable
-    public placeholder: string = "public/uploadfile.png";
-
-    @observable
     public x: number = 0;
 
     @observable

@@ -63,6 +63,15 @@ export class NodeCollectionStore extends NodeStore {
                 })
                 this.nodes.push(webNode)
                 break;
+            case StoreType.Collection:
+                const collection = new NodeCollectionStore();
+                collection.x = x;
+                collection.y = y;
+                collection.width = 500;
+                collection.height = 500;
+                collection.type = StoreType.Collection
+                this.nodes.push(collection);
+                break;
             default:
                 break;            
         }
