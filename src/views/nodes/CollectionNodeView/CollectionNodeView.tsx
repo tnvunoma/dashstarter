@@ -36,10 +36,12 @@ export class CollectionNodeView extends React.Component<CollectionNodeProp> {
         }}
         onPointerDown={this.onPointerDown}
       >
-        <FreeFormCanvas store={store} />
+        <TopBar store={store} />
+        <div className="content">
+          <FreeFormCanvas store={store}></FreeFormCanvas>
+        </div>
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
-        <TopBar store={store} />
       </div>
     );
   }

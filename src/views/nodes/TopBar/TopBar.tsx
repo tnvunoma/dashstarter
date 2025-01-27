@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from 'react';
-import { NodeStore } from "../../../stores";
+import { NodeStore, StoreType } from "../../../stores";
 import "./TopBar.scss";
 
 interface TopBarProps {
@@ -37,6 +37,7 @@ export class TopBar extends React.Component<TopBarProps> {
 
         this.props.store.x += e.movementX;
         this.props.store.y += e.movementY;
+        
     }
 
     render() {

@@ -38,8 +38,6 @@ export class BottomBar extends React.Component<BottomBarProps> {
 
     this.props.store.width += e.movementX;
     this.props.store.height += e.movementY;
-    this.props.store.x -= e.movementX / 2;
-    this.props.store.y -= e.movementY / 2;
   };
 
   render() {

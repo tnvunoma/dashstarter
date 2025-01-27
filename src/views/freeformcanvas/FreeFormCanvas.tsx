@@ -58,8 +58,11 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     e.preventDefault();
     if (!this.isPointerDown) return;
 
-    this.props.store.x = this.props.store.x + e.movementX;
-    this.props.store.y = this.props.store.y + e.movementY;
+    this.props.store.nodes.forEach((node) => {
+      node.x += e.movementX;
+      node.y += e.movementY;
+    });
+
     this.setState({ showPanel: false, isPanelVisible: false });
   };
 

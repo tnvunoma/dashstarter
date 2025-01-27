@@ -15,13 +15,9 @@ export class NodeCollectionStore extends NodeStore {
     @observable
     public nodes: NodeStore[] = new Array<NodeStore>();
 
-    @computed
-    public get transform(): string {
-        return "translate(" + this.x + "px," + this.y + "px)" + " scale(" + this.scale + ")";
-    }
-
     @action
     public addToCollection(node: StoreType, x: number, y: number ): void {
+        console.log(this.nodes.length)
         switch (node) {
             case StoreType.Text:
                 const textNode = new StaticTextNodeStore({
