@@ -7,6 +7,7 @@ import "./TextNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 
+
 interface TextNodeProps {
   store: StaticTextNodeStore;
   onDismiss: (nodeId: string) => void;
