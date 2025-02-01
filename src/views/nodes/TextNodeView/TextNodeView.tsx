@@ -6,7 +6,8 @@ import "./../NodeView.scss";
 import "./TextNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 interface TextNodeProps {
   store: StaticTextNodeStore;
@@ -17,7 +18,7 @@ interface TextNodeProps {
 export class TextNodeView extends React.Component<TextNodeProps> {
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
-    e.preventDefault();
+    // e.preventDefault();
   };
 
   handleDismiss = (nodeId: string) => {
@@ -43,7 +44,23 @@ export class TextNodeView extends React.Component<TextNodeProps> {
         <div className="scroll-box">
           <div className="content">
             <h3 className="title">{store.title}</h3>
-            <p className="paragraph">{store.text}</p>
+            <CKEditor
+              editor={ClassicEditor}
+              onChange={(event, editor) => {
+                store.text = editor.getData;
+              }}
+              config={{
+                toolbar: [
+                  "bold",
+                  "italic",
+                  "link",
+                  "bulletedList",
+                  "numberedList",
+                  "undo",
+                  "redo",
+                ],
+              }}
+            />
           </div>
         </div>
       </div>
