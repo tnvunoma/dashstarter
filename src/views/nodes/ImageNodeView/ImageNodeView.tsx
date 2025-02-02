@@ -134,6 +134,7 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
             {store.url ? (
               <img
                 src={store.url}
+                alt="uploaded"
                 style={{ width: "100%" }}
                 onClick={() => document.getElementById(imageUploadId)?.click()}
               />
@@ -141,7 +142,7 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
               <img
                 onClick={() => document.getElementById(imageUploadId)?.click()}
                 src={store.placeholder}
-                alt="Upload new image"
+                alt="placeholder"
                 style={{
                   width: "100%",
                   cursor: "pointer",

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { NodeStore, StoreType } from "../../../stores";
+import { NodeStore } from "../../../stores";
 import "./TopBar.scss";
 
 // props for TopBar class

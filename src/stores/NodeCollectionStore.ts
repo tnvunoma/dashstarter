@@ -1,4 +1,4 @@
-import { computed, observable, action } from "mobx";
+import { observable, action } from "mobx";
 import { NodeStore } from "./NodeStore";
 import { StaticTextNodeStore } from "./StaticTextNodeStore";
 import { VideoNodeStore } from "./VideoNodeStore";

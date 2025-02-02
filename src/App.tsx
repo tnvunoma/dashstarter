@@ -17,9 +17,9 @@ export class App extends React.Component {
    * @param type - option picked
    */
   handleOptionsClick = (type: string) => {
-    if (type == "canvas") {
+    if (type === "canvas") {
       this.setState({ isCanvas: true });
-    } else if (type == "table") {
+    } else if (type === "table") {
       this.setState({ isCanvas: false });
     }
   };
