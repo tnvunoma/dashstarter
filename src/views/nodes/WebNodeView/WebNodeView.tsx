@@ -19,6 +19,8 @@ interface WebNodeProps {
 export class WebNodeView extends React.Component<WebNodeProps> {
   state = {
     isUrlSubmitted: false,
+    isEditingTitle: false,
+    title: this.props.store.title,
   };
 
   inputUrl = React.createRef<HTMLInputElement>();
@@ -50,14 +52,34 @@ export class WebNodeView extends React.Component<WebNodeProps> {
     }
   };
 
-  componentDidMount() {
-    if (this.inputUrl.current) {
-      this.inputUrl.current.focus();
+  // Toggle the title edit mode
+  toggleTitleEdit = () => {
+    this.setState({ isEditingTitle: !this.state.isEditingTitle });
+  };
+
+  // Handle title change (on input field change)
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ title: event.target.value });
+  };
+
+  // Handle blur to save the title
+  handleTitleBlur = () => {
+    const { title } = this.state;
+    this.props.store.title = title;
+    this.setState({ isEditingTitle: false });
+  };
+
+  // handle Enter key press to save title
+  handleTitleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.handleTitleBlur();
     }
-  }
+  };
 
   render() {
-    let { store, onLinkStart, onLinkEnd } = this.props;
+    const { store, onLinkStart, onLinkEnd } = this.props;
+    const { isEditingTitle, title, isUrlSubmitted } = this.state;
+
     return (
       <div
         className="node webNode"
@@ -79,9 +101,24 @@ export class WebNodeView extends React.Component<WebNodeProps> {
 
         <div className="scroll-box">
           <div className="content">
-            <h3 className="title">{store.title}</h3>
+            
+            {isEditingTitle ? (
+              <input
+                type="text"
+                value={title}
+                onChange={this.handleTitleChange}
+                onBlur={this.handleTitleBlur}
+                onKeyDown={this.handleTitleKeyDown}
+                autoFocus
+                style={{ width: "100%" }}
+              />
+            ) : (
+              <h3 className="title" onClick={this.toggleTitleEdit}>
+                {store.title}
+              </h3>
+            )}
 
-            {!this.state.isUrlSubmitted ? (
+            {!isUrlSubmitted ? (
               <div className="url-input">
                 <input
                   ref={this.inputUrl}

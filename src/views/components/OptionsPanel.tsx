@@ -9,11 +9,6 @@ interface OptionsPanelProps {
 }
 
 export class OptionsPanel extends React.Component<OptionsPanelProps> {
-  onPointerDown = (e: React.PointerEvent): void => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
   handleOptionsClick = (type: string) => {
     this.props.onOptionSelect(type);
   };

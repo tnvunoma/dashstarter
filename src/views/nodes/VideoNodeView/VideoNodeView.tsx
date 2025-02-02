@@ -17,6 +17,11 @@ interface VideoNodeProps {
 
 @observer
 export class VideoNodeView extends React.Component<VideoNodeProps> {
+  state = {
+    isEditingTitle: false,
+    title: this.props.store.title,
+  };
+
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -36,9 +41,35 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
     }
   };
 
+  // Toggle the title edit mode
+  toggleTitleEdit = () => {
+    this.setState({ isEditingTitle: !this.state.isEditingTitle });
+  };
+
+  // Handle title change (on input field change)
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ title: event.target.value });
+  };
+
+  // Handle blur to save the title
+  handleTitleBlur = () => {
+    const { title } = this.state;
+    this.props.store.title = title;
+    this.setState({ isEditingTitle: false });
+  };
+
+  // handle Enter key press to save title
+  handleTitleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.handleTitleBlur();
+    }
+  };
+
   render() {
-    let store = this.props.store;
-    let { onLinkStart, onLinkEnd } = this.props;
+    const { store, onLinkStart, onLinkEnd } = this.props;
+    const { isEditingTitle, title } = this.state;
+    const videoUploadId = `video-upload-${store.Id}`;
+
     return (
       <div
         className="node videoNode"
@@ -60,14 +91,34 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
 
         <div className="scroll-box">
           <div className="content">
-            <h3 className="title">{store.title}</h3>
+            {isEditingTitle ? (
+              <input
+                type="text"
+                value={title}
+                onChange={this.handleTitleChange}
+                onBlur={this.handleTitleBlur}
+                onKeyDown={this.handleTitleKeyDown}
+                autoFocus
+                style={{ width: "100%" }}
+              />
+            ) : (
+              <h3 className="title" onClick={this.toggleTitleEdit}>
+                {store.title}
+              </h3>
+            )}
+
             {store.url ? (
-              <video controls style={{ width: "100%" }} src={store.url} />
+              <video
+                controls
+                style={{ width: "100%" }}
+                src={store.url}
+                onClick={() => document.getElementById(videoUploadId)?.click()}
+              />
             ) : (
               <img
                 src={store.placeholder}
                 alt="Upload new video"
-                onClick={() => document.getElementById("video-upload")?.click()}
+                onClick={() => document.getElementById(videoUploadId)?.click()}
                 style={{
                   width: "100%",
                   cursor: "pointer",
@@ -79,7 +130,7 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
         <input
           type="file"
           accept="video/*"
-          id="video-upload"
+          id={videoUploadId}
           onChange={this.handleVideoUpload}
         />
       </div>

@@ -17,6 +17,11 @@ interface ImageNodeProps {
 
 @observer
 export class ImageNodeView extends React.Component<ImageNodeProps> {
+  state = {
+    isEditingTitle: false,
+    title: this.props.store.title,
+  };
+
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -34,8 +39,35 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
     }
   };
 
+  // Toggle the title edit mode
+  toggleTitleEdit = () => {
+    this.setState({ isEditingTitle: !this.state.isEditingTitle });
+  };
+
+  // Handle title change (on input field change)
+  handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ title: event.target.value });
+  };
+
+  // Handle blur to save the title
+  handleTitleBlur = () => {
+    const { title } = this.state;
+    this.props.store.title = title;
+    this.setState({ isEditingTitle: false });
+  };
+
+  // handle Enter key press to save title
+  handleTitleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      this.handleTitleBlur();
+    }
+  };
+
   render() {
-    let { store, onLinkStart, onLinkEnd } = this.props;
+    const { store, onLinkStart, onLinkEnd } = this.props;
+    const { isEditingTitle, title } = this.state;
+    const imageUploadId = `image-upload-${store.Id}`;
+
     return (
       <div
         className="node imageNode"
@@ -57,13 +89,31 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
         <BottomBar store={store} />
         <div className="scroll-box">
           <div className="content">
-            <h3 className="title">{store.title}</h3>
+            {isEditingTitle ? (
+              <input
+                type="text"
+                value={title}
+                onChange={this.handleTitleChange}
+                onBlur={this.handleTitleBlur}
+                onKeyDown={this.handleTitleKeyDown}
+                autoFocus
+                style={{ width: "100%" }}
+              />
+            ) : (
+              <h3 className="title" onClick={this.toggleTitleEdit}>
+                {store.title}
+              </h3>
+            )}
 
             {store.url ? (
-              <img src={store.url} style={{ width: "100%" }} />
+              <img
+                src={store.url}
+                style={{ width: "100%" }}
+                onClick={() => document.getElementById(imageUploadId)?.click()}
+              />
             ) : (
               <img
-                onClick={() => document.getElementById("image-upload")?.click()}
+                onClick={() => document.getElementById(imageUploadId)?.click()}
                 src={store.placeholder}
                 alt="Upload new image"
                 style={{
@@ -77,8 +127,7 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
         <input
           type="file"
           accept="image/*"
-          id="image-upload"
-          style={{ display: "none" }}
+          id={imageUploadId}
           onChange={this.handleImageUpload}
         />
       </div>

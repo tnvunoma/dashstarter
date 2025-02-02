@@ -1,16 +1,25 @@
 .link-button {
     position: absolute; 
     top: 0;
-    left: 0;
-    width: 20px;
+    right: 18px;
+    width: 70px;
     height: 20px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+
     cursor: pointer;
 
+    .button-text {
+      color: #e6e6e6;
+      font-size: 11px;
+    }
+
     &.linking {
-        background: white;
+        background: black;
       }
       
       &.not-linking {
-        background: blue;
+        background: rgb(39, 41, 48);
       }
   }

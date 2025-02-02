@@ -10,7 +10,7 @@ import { WebNodeStore } from "./WebNodeStore";
 export class NodeCollectionStore extends NodeStore {
 
     @observable
-    public scale: number = 1;
+    public title: string = "Collection";
 
     @observable
     public nodes: NodeStore[] = new Array<NodeStore>();
@@ -81,5 +81,12 @@ export class NodeCollectionStore extends NodeStore {
     @action
     public deleteNodeById(nodeId: string): void {
         this.nodes = this.nodes.filter(node => node.Id !== nodeId);
+    }
+
+    get content(): string {
+        if (this.nodes.length === 0) {
+            return "[No nodes added]";
+        }
+        return this.nodes.map(node => node.title).join(", ");
     }
 }

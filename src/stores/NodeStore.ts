@@ -20,6 +20,9 @@ export class NodeStore {
     public type: StoreType | null = null;
 
     @observable
+    public title: string | undefined;
+
+    @observable
     public x: number = 0;
 
     @observable
@@ -62,5 +65,9 @@ export class NodeStore {
         this.isLinking = false;
         this.outgoingLinks = this.outgoingLinks.filter(link => link.node !== node);
         node.incomingLinks = node.incomingLinks.filter(link => link.node !== this);
+    }
+
+    get content(): string {
+        return "[Node content not available]";
     }
 }

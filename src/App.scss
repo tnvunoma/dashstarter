@@ -5,6 +5,8 @@ body {
     overflow: hidden;
     font-family: 'Hind Siliguri', sans-serif;
     overscroll-behavior-x: none;
+    background-color: #1e1e24;
+
 }
 
 .header {
@@ -18,13 +20,13 @@ body {
 }
 
 .title {
-    font-size: 24px; /* Set the title size */
-    margin: 0; /* Remove default margin */
+    font-size: 24px;
+    margin: 0; 
 }
 
 .toolbar {
-    display: flex; /* Make the buttons inline */
-    gap: 10px; /* Space between buttons */
+    display: flex; 
+    gap: 10px; 
     padding-right: 25px;
 }
 

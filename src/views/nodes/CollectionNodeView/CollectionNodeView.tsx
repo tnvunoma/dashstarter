@@ -45,6 +45,7 @@ export class CollectionNodeView extends React.Component<CollectionNodeProp> {
           onLinkStart={onLinkStart}
           onLinkEnd={onLinkEnd}
         />
+        
         <FreeFormCanvas store={store}></FreeFormCanvas>
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />

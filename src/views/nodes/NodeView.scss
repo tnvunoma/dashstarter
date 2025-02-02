@@ -1,10 +1,8 @@
 .node {
     position: absolute;
-    background: #cdcdcd;
+    background-color: #1e1e1e;
     overflow: hidden;
     border-radius: 8px;
-    border-width: 10px;
-    border-color: azure;
         
     &.minimized {
         width: 30px;
@@ -14,6 +12,11 @@
     .content {
         box-sizing: border-box;
         margin: 20px;
+    }
+
+    .title {
+        padding: 10px;
+        color: rgb(255, 255, 255)
     }
 
     .scroll-box {

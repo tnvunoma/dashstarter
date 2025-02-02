@@ -1,15 +1,16 @@
 .node {
     &.textNode {
-        background: pink;
+        background: rgb(232, 155, 167);
         height: 100%;
 
         .ck-toolbar {
-            background-color: pink;
+            background-color: rgb(203, 121, 140);
           }
 
         .ck-editor__editable {
-            height: 300px; 
+            height: 125px; 
             flex-grow: 1;
+            color: rgb(184, 91, 114);
           }
     }
 }

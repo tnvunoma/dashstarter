@@ -9,9 +9,9 @@ export class StaticTextNodeStore extends NodeStore {
     }
 
     @observable
-    public title: string = "";
+    public text: string | undefined;
 
-    @observable
-    public text: string = "";
-
+    get content(): string {
+        return this.text || "[Text is empty]";
+    }
 }

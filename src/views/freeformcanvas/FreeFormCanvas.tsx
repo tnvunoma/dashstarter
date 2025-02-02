@@ -82,8 +82,8 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
   };
 
   handleOptionSelect = (type: string) => {
-    const x = this.state.mouseX - this.props.store.x;
-    const y = this.state.mouseY - this.props.store.y;
+    const x = this.state.mouseX;
+    const y = this.state.mouseY;
     switch (type) {
       case "text":
         this.props.store.addToCollection(StoreType.Text, x, y);
@@ -109,7 +109,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     this.props.store.deleteNodeById(nodeId);
   };
 
-  private linkingNode: NodeStore | null = null; // Track the node being linked from
+  private linkingNode: NodeStore | null = null;
 
   handleLinkStart = (nodeStore: NodeStore) => {
     if (!this.linkingNode) {
@@ -180,7 +180,6 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
                 );
 
               case StoreType.Video:
-                console.log("Passing store to VideoNodeView:", nodeStore);
                 return (
                   <VideoNodeView
                     key={nodeStore.Id}

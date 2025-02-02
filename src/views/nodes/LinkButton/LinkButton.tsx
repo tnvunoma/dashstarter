@@ -21,6 +21,13 @@ export class LinkButton extends React.Component<LinkButtonProps> {
     const buttonClass = this.props.store.isLinking
       ? "link-button linking"
       : "link-button not-linking";
-    return <div className={buttonClass} onPointerDown={this.onPointerDown} />;
+      
+    return (
+      <div className={buttonClass} onPointerDown={this.onPointerDown}>
+        <span className="button-text">
+          {this.props.store.isLinking ? "Linking..." : "Link this"}
+        </span>
+      </div>
+    );
   }
 }

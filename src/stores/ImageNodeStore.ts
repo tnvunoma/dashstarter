@@ -9,11 +9,11 @@ export class ImageNodeStore extends NodeStore {
     }
 
     @observable
-    public title: string | undefined;
-
-    @observable
     public url: string | undefined;
 
-    @observable
     public placeholder: string = "/uploadfile.png" ;
+
+    get content(): string {
+        return this.url || "[No file uploaded]";
+    }
 }

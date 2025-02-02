@@ -19,9 +19,11 @@ export class DismissButton extends React.Component<DismissButtonProps> {
 
     store.outgoingLinks.forEach((link) => {
       link.node.unlinkFrom(store);
+      store.unlinkFrom(link.node);
     });
     store.incomingLinks.forEach((link) => {
       link.node.unlinkFrom(store);
+      store.unlinkFrom(link.node);
     });
   };
 

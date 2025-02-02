@@ -9,8 +9,9 @@ export class WebNodeStore extends NodeStore {
     }
 
     @observable
-    public title: string | undefined;
-
-    @observable
     public url: string | undefined;
+
+    get content(): string {
+        return this.url || "[No url provided}";
+    }
 }
