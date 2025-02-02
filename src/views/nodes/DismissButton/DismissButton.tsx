@@ -14,6 +14,15 @@ export class DismissButton extends React.Component<DismissButtonProps> {
     e.stopPropagation();
     e.preventDefault();
     this.props.onDismiss(this.props.store.Id);
+
+    const { store } = this.props;
+
+    store.outgoingLinks.forEach((link) => {
+      link.node.unlinkFrom(store);
+    });
+    store.incomingLinks.forEach((link) => {
+      link.node.unlinkFrom(store);
+    });
   };
 
   render() {

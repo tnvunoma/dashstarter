@@ -14,10 +14,4 @@ export class StaticTextNodeStore extends NodeStore {
     @observable
     public text: string = "";
 
-    @observable
-    public width: number = 400;
-
-    @observable
-    public height: number = 200;
-
 }

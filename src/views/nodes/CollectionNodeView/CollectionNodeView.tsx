@@ -3,14 +3,17 @@ import * as React from "react";
 import "./../NodeView.scss";
 import { TopBar } from "./../TopBar";
 import "./CollectionNodeView.scss";
-import { NodeCollectionStore } from "../../../stores";
+import { NodeCollectionStore, NodeStore } from "../../../stores";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 import { FreeFormCanvas } from "../../freeformcanvas/FreeFormCanvas";
+import { LinkButton } from "../LinkButton";
 
 interface CollectionNodeProp {
   store: NodeCollectionStore;
   onDismiss: (nodeId: string) => void;
+  onLinkStart: (nodeStore: NodeStore) => void;
+  onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
 @observer
@@ -25,7 +28,7 @@ export class CollectionNodeView extends React.Component<CollectionNodeProp> {
   };
 
   render() {
-    let store = this.props.store;
+    let { store, onLinkStart, onLinkEnd } = this.props;
     return (
       <div
         className="node collectionNode"
@@ -37,9 +40,12 @@ export class CollectionNodeView extends React.Component<CollectionNodeProp> {
         onPointerDown={this.onPointerDown}
       >
         <TopBar store={store} />
-        <div className="content">
-          <FreeFormCanvas store={store}></FreeFormCanvas>
-        </div>
+        <LinkButton
+          store={store}
+          onLinkStart={onLinkStart}
+          onLinkEnd={onLinkEnd}
+        />
+        <FreeFormCanvas store={store}></FreeFormCanvas>
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
       </div>

@@ -1,15 +1,18 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { WebNodeStore } from "../../../stores";
+import { WebNodeStore, NodeStore } from "../../../stores";
 import "./../NodeView.scss";
 import { TopBar } from "./../TopBar";
 import "./WebNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
+import { LinkButton } from "../LinkButton";
 
 interface WebNodeProps {
   store: WebNodeStore;
   onDismiss: (nodeId: string) => void;
+  onLinkStart: (nodeStore: NodeStore) => void;
+  onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
 @observer
@@ -22,7 +25,6 @@ export class WebNodeView extends React.Component<WebNodeProps> {
 
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
-    e.preventDefault();
   };
 
   handleDismiss = (nodeId: string) => {
@@ -55,7 +57,7 @@ export class WebNodeView extends React.Component<WebNodeProps> {
   }
 
   render() {
-    let store = this.props.store;
+    let { store, onLinkStart, onLinkEnd } = this.props;
     return (
       <div
         className="node webNode"
@@ -67,6 +69,11 @@ export class WebNodeView extends React.Component<WebNodeProps> {
         onPointerDown={this.onPointerDown}
       >
         <TopBar store={store} />
+        <LinkButton
+          store={store}
+          onLinkStart={onLinkStart}
+          onLinkEnd={onLinkEnd}
+        />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
 

@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import * as React from "react";
 import {
+  NodeStore,
   NodeCollectionStore,
   StaticTextNodeStore,
   StoreType,
@@ -108,6 +109,29 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     this.props.store.deleteNodeById(nodeId);
   };
 
+  private linkingNode: NodeStore | null = null; // Track the node being linked from
+
+  handleLinkStart = (nodeStore: NodeStore) => {
+    if (!this.linkingNode) {
+      this.linkingNode = nodeStore; // Set the node being linked from
+      this.linkingNode.isLinking = true;
+      console.log(this.linkingNode.isLinking);
+    } else {
+      this.linkingNode = null;
+    }
+  };
+
+  handleLinkEnd = (nodeStore: NodeStore) => {
+    console.log("end");
+    if (this.linkingNode) {
+      this.linkingNode.isLinking = false;
+      if (nodeStore !== this.linkingNode) {
+        this.linkingNode.linkTo(nodeStore);
+        nodeStore.isLinking = false;
+      }
+    }
+  };
+
   render() {
     let store = this.props.store;
     return (
@@ -115,61 +139,95 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
         className="freeformcanvas-container"
         onPointerDown={this.onPointerDown}
       >
-        <div className="freeformcanvas" style={{ transform: store.transform }}>
-          {
-            // maps each item in the store to be rendered in the canvas based on the node type
-            store.nodes.map((nodeStore) => {
-              switch (nodeStore.type) {
-                case StoreType.Text:
-                  return (
-                    <TextNodeView
-                      key={nodeStore.Id}
-                      store={nodeStore as StaticTextNodeStore}
-                      onDismiss={this.handleDismissButton}
-                    />
-                  );
+        <div
+          className="freeformcanvas"
+          style={{ width: store.width, height: store.height }}
+        >
+          <svg className="links-overlay">
+            {store.nodes.map((nodeStore) => {
+              return nodeStore.outgoingLinks.map((link, index) => {
+                const startX = nodeStore.x + nodeStore.width / 2;
+                const startY = nodeStore.y + nodeStore.height / 2;
+                const endX = link.node.x + link.node.width / 2;
+                const endY = link.node.y + link.node.height / 2;
 
-                case StoreType.Video:
-                  return (
-                    <VideoNodeView
-                      key={nodeStore.Id}
-                      store={nodeStore as VideoNodeStore}
-                      onDismiss={this.handleDismissButton}
-                    />
-                  );
+                return (
+                  <line
+                    key={`${nodeStore.Id}-${link.node.Id}-${index}`}
+                    x1={startX}
+                    y1={startY}
+                    x2={endX}
+                    y2={endY}
+                    stroke="white"
+                    strokeWidth="2"
+                  />
+                );
+              });
+            })}
+          </svg>
 
-                case StoreType.Image:
-                  return (
-                    <ImageNodeView
-                      key={nodeStore.Id}
-                      store={nodeStore as ImageNodeStore}
-                      onDismiss={this.handleDismissButton}
-                    />
-                  );
+          {store.nodes.map((nodeStore) => {
+            switch (nodeStore.type) {
+              case StoreType.Text:
+                return (
+                  <TextNodeView
+                    key={nodeStore.Id}
+                    store={nodeStore as StaticTextNodeStore}
+                    onDismiss={this.handleDismissButton}
+                    onLinkStart={this.handleLinkStart}
+                    onLinkEnd={this.handleLinkEnd}
+                  />
+                );
 
-                case StoreType.Website:
-                  return (
-                    <WebNodeView
-                      key={nodeStore.Id}
-                      store={nodeStore as WebNodeStore}
-                      onDismiss={this.handleDismissButton}
-                    />
-                  );
+              case StoreType.Video:
+                console.log("Passing store to VideoNodeView:", nodeStore);
+                return (
+                  <VideoNodeView
+                    key={nodeStore.Id}
+                    store={nodeStore as VideoNodeStore}
+                    onDismiss={this.handleDismissButton}
+                    onLinkStart={this.handleLinkStart}
+                    onLinkEnd={this.handleLinkEnd}
+                  />
+                );
 
-                case StoreType.Collection:
-                  return (
-                    <CollectionNodeView
-                      key={nodeStore.Id}
-                      store={nodeStore as NodeCollectionStore}
-                      onDismiss={this.handleDismissButton}
-                    />
-                  );
+              case StoreType.Image:
+                return (
+                  <ImageNodeView
+                    key={nodeStore.Id}
+                    store={nodeStore as ImageNodeStore}
+                    onDismiss={this.handleDismissButton}
+                    onLinkStart={this.handleLinkStart}
+                    onLinkEnd={this.handleLinkEnd}
+                  />
+                );
 
-                default:
-                  return null;
-              }
-            })
-          }
+              case StoreType.Website:
+                return (
+                  <WebNodeView
+                    key={nodeStore.Id}
+                    store={nodeStore as WebNodeStore}
+                    onDismiss={this.handleDismissButton}
+                    onLinkStart={this.handleLinkStart}
+                    onLinkEnd={this.handleLinkEnd}
+                  />
+                );
+
+              case StoreType.Collection:
+                return (
+                  <CollectionNodeView
+                    key={nodeStore.Id}
+                    store={nodeStore as NodeCollectionStore}
+                    onDismiss={this.handleDismissButton}
+                    onLinkStart={this.handleLinkStart}
+                    onLinkEnd={this.handleLinkEnd}
+                  />
+                );
+
+              default:
+                return null;
+            }
+          })}
         </div>
 
         <OptionsPanel

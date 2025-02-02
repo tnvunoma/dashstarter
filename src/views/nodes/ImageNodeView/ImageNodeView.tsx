@@ -1,15 +1,18 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { ImageNodeStore } from "../../../stores";
+import { ImageNodeStore, NodeStore } from "../../../stores";
 import "./../NodeView.scss";
 import { TopBar } from "./../TopBar";
 import "./ImageNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
+import { LinkButton } from "../LinkButton";
 
 interface ImageNodeProps {
   store: ImageNodeStore;
   onDismiss: (nodeId: string) => void;
+  onLinkStart: (nodeStore: NodeStore) => void;
+  onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
 @observer
@@ -32,7 +35,7 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
   };
 
   render() {
-    let store = this.props.store;
+    let { store, onLinkStart, onLinkEnd } = this.props;
     return (
       <div
         className="node imageNode"
@@ -45,6 +48,12 @@ export class ImageNodeView extends React.Component<ImageNodeProps> {
       >
         <TopBar store={store} />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
+        <LinkButton
+          store={store}
+          onLinkStart={onLinkStart}
+          onLinkEnd={onLinkEnd}
+        />
+
         <BottomBar store={store} />
         <div className="scroll-box">
           <div className="content">

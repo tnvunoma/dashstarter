@@ -2,6 +2,9 @@
     position: absolute;
     background: #cdcdcd;
     overflow: hidden;
+    border-radius: 8px;
+    border-width: 10px;
+    border-color: azure;
         
     &.minimized {
         width: 30px;
@@ -10,6 +13,7 @@
 
     .content {
         box-sizing: border-box;
+        margin: 20px;
     }
 
     .scroll-box {

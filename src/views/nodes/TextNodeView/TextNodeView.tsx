@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { StaticTextNodeStore } from "../../../stores";
+import { StaticTextNodeStore, NodeStore } from "../../../stores";
 import { TopBar } from "../TopBar";
 import "./../NodeView.scss";
 import "./TextNodeView.scss";
@@ -8,17 +8,19 @@ import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { LinkButton } from "../LinkButton";
 
 interface TextNodeProps {
   store: StaticTextNodeStore;
   onDismiss: (nodeId: string) => void;
+  onLinkStart: (nodeStore: NodeStore) => void;
+  onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
 @observer
 export class TextNodeView extends React.Component<TextNodeProps> {
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
-    // e.preventDefault();
   };
 
   handleDismiss = (nodeId: string) => {
@@ -26,7 +28,7 @@ export class TextNodeView extends React.Component<TextNodeProps> {
   };
 
   render() {
-    let store = this.props.store;
+    let { store, onLinkStart, onLinkEnd } = this.props;
     return (
       <div
         className="node textNode"
@@ -38,6 +40,11 @@ export class TextNodeView extends React.Component<TextNodeProps> {
         onPointerDown={this.onPointerDown}
       >
         <TopBar store={store} />
+        <LinkButton
+          store={store}
+          onLinkStart={onLinkStart}
+          onLinkEnd={onLinkEnd}
+        />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
 

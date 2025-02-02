@@ -1,15 +1,18 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { VideoNodeStore } from "../../../stores";
+import { VideoNodeStore, NodeStore } from "../../../stores";
 import "./../NodeView.scss";
 import { TopBar } from "./../TopBar";
 import "./VideoNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
+import { LinkButton } from "../LinkButton";
 
 interface VideoNodeProps {
   store: VideoNodeStore;
   onDismiss: (nodeId: string) => void;
+  onLinkStart: (nodeStore: NodeStore) => void;
+  onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
 @observer
@@ -26,13 +29,16 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
   handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      console.log(`Uploading video for node ID: ${this.props.store.Id}`);
       const videoUrl = URL.createObjectURL(file);
+      console.log(`Setting URL: ${videoUrl}`);
       this.props.store.url = videoUrl;
     }
   };
 
   render() {
     let store = this.props.store;
+    let { onLinkStart, onLinkEnd } = this.props;
     return (
       <div
         className="node videoNode"
@@ -44,6 +50,11 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
         onPointerDown={this.onPointerDown}
       >
         <TopBar store={store} />
+        <LinkButton
+          store={store}
+          onLinkStart={onLinkStart}
+          onLinkEnd={onLinkEnd}
+        />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
 
@@ -69,7 +80,6 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
           type="file"
           accept="video/*"
           id="video-upload"
-          style={{ display: "none" }}
           onChange={this.handleVideoUpload}
         />
       </div>

@@ -15,9 +15,14 @@ export class NodeCollectionStore extends NodeStore {
     @observable
     public nodes: NodeStore[] = new Array<NodeStore>();
 
+    @observable
+    public width: number = window.innerWidth;
+
+    @observable
+    public height: number = window.innerHeight;
+
     @action
     public addToCollection(node: StoreType, x: number, y: number ): void {
-        console.log(this.nodes.length)
         switch (node) {
             case StoreType.Text:
                 const textNode = new StaticTextNodeStore({
