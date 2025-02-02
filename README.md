@@ -25,3 +25,7 @@ Canvas View:
 - click on video and image node to upload files from your device
 
 - click on table view button to view contents of the canvas in table format
+
+- KNOWN BUGS:
+
+If node's link button is clicked and node is dismissed without ending the linking process, the next time a node's link button is clicked, the deleted node will be linked to the new node. There is no way to delete this linkage. 
