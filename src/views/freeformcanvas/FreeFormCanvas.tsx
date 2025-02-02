@@ -16,10 +16,12 @@ import { CollectionNodeView } from "../nodes/CollectionNodeView";
 import { OptionsPanel } from "../components/OptionsPanel";
 import "./FreeFormCanvas.scss";
 
+// props for FreeFormCanvas class
 interface FreeFormProps {
   store: NodeCollectionStore;
 }
 
+// FreeFormCanvas class
 @observer
 export class FreeFormCanvas extends React.Component<FreeFormProps> {
   private isPointerDown: boolean | undefined;
@@ -30,6 +32,12 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     mouseY: 0,
   };
 
+  /**
+   * Mouse listener events to handle panning the screen and adding nodes.
+   * Hold and drag - pans screen
+   * Single click - add node
+   * @param e - pointer event
+   */
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -46,6 +54,10 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     this.handleCanvasClick(mouseX, mouseY);
   };
 
+  /**
+   * Listener event for mouse up
+   * @param e - pointer event
+   */
   onPointerUp = (e: PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -54,6 +66,10 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     document.removeEventListener("pointerup", this.onPointerUp);
   };
 
+  /**
+   * Listener event for mouse move
+   * @param e - pointer event
+   */
   onPointerMove = (e: PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -67,6 +83,11 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     this.setState({ showPanel: false, isPanelVisible: false });
   };
 
+  /**
+   * Helper event to handle canvas click. When user clicks, nodes can be added
+   * @param x - mouse x position
+   * @param y - mouse y position
+   */
   handleCanvasClick = (x: number, y: number) => {
     const { isPanelVisible } = this.state;
     if (isPanelVisible) {
@@ -81,6 +102,10 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     }
   };
 
+  /**
+   * Handles node options selection. Allows user to choose which node to add
+   * @param type - type of node added
+   */
   handleOptionSelect = (type: string) => {
     const x = this.state.mouseX;
     const y = this.state.mouseY;
@@ -105,24 +130,36 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
     }
   };
 
+  /**
+   * Deletes node by ID
+   * @param nodeId - node ID
+   */
   handleDismissButton = (nodeId: string) => {
     this.props.store.deleteNodeById(nodeId);
   };
 
-  private linkingNode: NodeStore | null = null;
+  // linking logic
+  private linkingNode: NodeStore | null = null; // tracks what node is the start of the link
 
+  /**
+   * Starts the linking process by clicking on a node's link button
+   * @param nodeStore - 1st node being linked
+   */
   handleLinkStart = (nodeStore: NodeStore) => {
     if (!this.linkingNode) {
       this.linkingNode = nodeStore; // Set the node being linked from
       this.linkingNode.isLinking = true;
-      console.log(this.linkingNode.isLinking);
     } else {
       this.linkingNode = null;
     }
   };
 
+  /**
+   * Ends the linking process by either pressing on another node's link button
+   * or cancels it if starting node is pressed again
+   * @param nodeStore - 2nd node being linked
+   */
   handleLinkEnd = (nodeStore: NodeStore) => {
-    console.log("end");
     if (this.linkingNode) {
       this.linkingNode.isLinking = false;
       if (nodeStore !== this.linkingNode) {
@@ -143,6 +180,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
           className="freeformcanvas"
           style={{ width: store.width, height: store.height }}
         >
+          {/* Render all links between nodes*/}
           <svg className="links-overlay">
             {store.nodes.map((nodeStore) => {
               return nodeStore.outgoingLinks.map((link, index) => {
@@ -166,6 +204,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
             })}
           </svg>
 
+          {/* Render all nodes in collection by mapping to unique ID*/}
           {store.nodes.map((nodeStore) => {
             switch (nodeStore.type) {
               case StoreType.Text:
@@ -229,6 +268,7 @@ export class FreeFormCanvas extends React.Component<FreeFormProps> {
           })}
         </div>
 
+        {/* Renders the node selection panel for adding nodes */}
         <OptionsPanel
           mouseX={this.state.mouseX}
           mouseY={this.state.mouseY}

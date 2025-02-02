@@ -8,6 +8,7 @@ import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 import { LinkButton } from "../LinkButton";
 
+// props for VideoNodeView class
 interface VideoNodeProps {
   store: VideoNodeStore;
   onDismiss: (nodeId: string) => void;
@@ -15,6 +16,7 @@ interface VideoNodeProps {
   onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
+// VideoNodeView class
 @observer
 export class VideoNodeView extends React.Component<VideoNodeProps> {
   state = {
@@ -22,43 +24,63 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
     title: this.props.store.title,
   };
 
+  /**
+   * Handles mouse events for video nodes
+   * @param e - pointer event
+   */
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
   };
 
+  /**
+   * Dismissed ndoe by ID
+   * @param nodeId - ndoe ID
+   */
   handleDismiss = (nodeId: string) => {
     this.props.onDismiss(nodeId);
   };
 
+  /**
+   * Handle video upload for given video input from system
+   * @param event
+   */
   handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      console.log(`Uploading video for node ID: ${this.props.store.Id}`);
       const videoUrl = URL.createObjectURL(file);
-      console.log(`Setting URL: ${videoUrl}`);
       this.props.store.url = videoUrl;
     }
   };
 
-  // Toggle the title edit mode
+  /**
+   * Switch on title editing mode upon title click
+   */
   toggleTitleEdit = () => {
     this.setState({ isEditingTitle: !this.state.isEditingTitle });
   };
 
-  // Handle title change (on input field change)
+  /**
+   * Takes in user input for title text
+   * @param event
+   */
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ title: event.target.value });
   };
 
-  // Handle blur to save the title
+  /**
+   * Hanled blur event to save title
+   */
   handleTitleBlur = () => {
     const { title } = this.state;
     this.props.store.title = title;
     this.setState({ isEditingTitle: false });
   };
 
-  // handle Enter key press to save title
+  /**
+   * handles enter key press to save title
+   * @param event - key event
+   */
   handleTitleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       this.handleTitleBlur();
@@ -91,6 +113,7 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
 
         <div className="scroll-box">
           <div className="content">
+            {/* editable title */}
             {isEditingTitle ? (
               <input
                 type="text"
@@ -107,6 +130,7 @@ export class VideoNodeView extends React.Component<VideoNodeProps> {
               </h3>
             )}
 
+            {/* video url upload */}
             {store.url ? (
               <video
                 controls

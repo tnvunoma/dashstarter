@@ -3,14 +3,20 @@ import * as React from "react";
 import { NodeStore } from "../../../stores";
 import "./BottomBar.scss";
 
+// props for BottomBar class
 interface BottomBarProps {
   store: NodeStore;
 }
 
+// BottomBar class - handles scaling node up and down
 @observer
 export class BottomBar extends React.Component<BottomBarProps> {
   private isPointerDown = false;
 
+  /**
+   * Handle mouse event for bottom bar 
+   * @param e - pointer event
+   */
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -22,6 +28,10 @@ export class BottomBar extends React.Component<BottomBarProps> {
     document.addEventListener("pointerup", this.onPointerUp);
   };
 
+  /**
+   * Handles mouse up
+   * @param e - pointer event
+   */
   onPointerUp = (e: PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();
@@ -31,6 +41,10 @@ export class BottomBar extends React.Component<BottomBarProps> {
     document.removeEventListener("pointerup", this.onPointerUp);
   };
 
+  /**
+   * handles mouse move (drag)
+   * @param e - pointer event
+   */
   onPointerMove = (e: PointerEvent): void => {
     e.stopPropagation();
     e.preventDefault();

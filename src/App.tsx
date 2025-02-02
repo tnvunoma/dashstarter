@@ -4,11 +4,18 @@ import { NodeCollectionStore } from "./stores";
 import { FreeFormCanvas } from "./views/freeformcanvas/FreeFormCanvas";
 import { TableView } from "./views/tableview/TableView";
 
+// outermost collection
 const mainNodeCollection = new NodeCollectionStore();
 
+// App class
 export class App extends React.Component {
   state = { isCanvas: true };
 
+  /**
+   * Displays either Canvas or Table view depending on option picked.
+   * Default is Canvas View
+   * @param type - option picked
+   */
   handleOptionsClick = (type: string) => {
     if (type == "canvas") {
       this.setState({ isCanvas: true });

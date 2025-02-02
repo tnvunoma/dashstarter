@@ -7,7 +7,9 @@ import "./WebNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 import { LinkButton } from "../LinkButton";
+import { Constants } from "../../../Constants";
 
+// props for WebNodeView class
 interface WebNodeProps {
   store: WebNodeStore;
   onDismiss: (nodeId: string) => void;
@@ -15,6 +17,7 @@ interface WebNodeProps {
   onLinkEnd: (nodeStore: NodeStore) => void;
 }
 
+// WebNodeView class
 @observer
 export class WebNodeView extends React.Component<WebNodeProps> {
   state = {
@@ -25,18 +28,35 @@ export class WebNodeView extends React.Component<WebNodeProps> {
 
   inputUrl = React.createRef<HTMLInputElement>();
 
+  /**
+   * Listener for node mouse events
+   * @param e - pointer event
+   */
   onPointerDown = (e: React.PointerEvent): void => {
     e.stopPropagation();
   };
 
+  /**
+   * Dismissed node by ID
+   * @param nodeId - node ID
+   */
   handleDismiss = (nodeId: string) => {
     this.props.onDismiss(nodeId);
   };
 
+  /**
+   * Handles change in url
+   * @param event - input element
+   */
   handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.store.url = event.target.value;
   };
 
+  /**
+   * Checks if url is a valid link to a website
+   * @param url - input url
+   * @returns boolean value
+   */
   isValidUrl(url: string): boolean {
     try {
       new URL(url);
@@ -46,30 +66,43 @@ export class WebNodeView extends React.Component<WebNodeProps> {
     }
   }
 
+  /**
+   * If url is valid, prompt the website to be render
+   */
   handleUrlSubmit = () => {
     if (this.isValidUrl(this.props.store.url || "")) {
       this.setState({ isUrlSubmitted: true });
     }
   };
 
-  // Toggle the title edit mode
+  /**
+   * Switch on title editing mode upon title click
+   */
   toggleTitleEdit = () => {
     this.setState({ isEditingTitle: !this.state.isEditingTitle });
   };
 
-  // Handle title change (on input field change)
+  /**
+   * Takes in user input for title text
+   * @param event 
+   */
   handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ title: event.target.value });
   };
 
-  // Handle blur to save the title
+  /**
+   * Hanled blur event to save title
+   */
   handleTitleBlur = () => {
     const { title } = this.state;
     this.props.store.title = title;
     this.setState({ isEditingTitle: false });
   };
 
-  // handle Enter key press to save title
+  /**
+   * handles enter key press to save title
+   * @param event - key event
+   */
   handleTitleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       this.handleTitleBlur();
@@ -98,10 +131,10 @@ export class WebNodeView extends React.Component<WebNodeProps> {
         />
         <DismissButton store={store} onDismiss={this.handleDismiss} />
         <BottomBar store={store} />
-
         <div className="scroll-box">
           <div className="content">
-            
+
+            {/* editable title */}
             {isEditingTitle ? (
               <input
                 type="text"
@@ -118,6 +151,7 @@ export class WebNodeView extends React.Component<WebNodeProps> {
               </h3>
             )}
 
+            {/* handling url links to display website*/}
             {!isUrlSubmitted ? (
               <div className="url-input">
                 <input
@@ -132,8 +166,8 @@ export class WebNodeView extends React.Component<WebNodeProps> {
             ) : (
               <iframe
                 src={store.url}
-                width={store.width - 60}
-                height={store.height - 150}
+                width={store.width - Constants.LINK_X_OFFSET}
+                height={store.height - Constants.LINK_Y_OFFSET}
               />
             )}
           </div>

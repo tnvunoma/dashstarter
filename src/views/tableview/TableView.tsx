@@ -4,12 +4,19 @@ import { StoreType } from "../../stores/NodeStore";
 import { NodeCollectionStore } from "../../stores";
 import "./TableView.scss";
 
+// props for TableView class
 interface TableViewProps {
   collections: NodeCollectionStore;
 }
 
+// TableView class
 @observer
 export class TableView extends React.Component<TableViewProps> {
+  /**
+   * Convert node type to displayable text
+   * @param nodeType - node type
+   * @returns - node type in string from
+   */
   getNodeTypeLabel(nodeType: StoreType): string {
     switch (nodeType) {
       case StoreType.Text:
