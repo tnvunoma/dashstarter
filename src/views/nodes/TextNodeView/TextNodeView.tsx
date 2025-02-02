@@ -7,7 +7,7 @@ import "./TextNodeView.scss";
 import { BottomBar } from "../BottomBar";
 import { DismissButton } from "../DismissButton";
 //@ts-ignore
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { CKEditor, CKEditorEventHandler } from "@ckeditor/ckeditor5-react";
 //@ts-ignore
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { LinkButton } from "../LinkButton";
@@ -124,7 +124,10 @@ export class TextNodeView extends React.Component<TextNodeProps> {
             <CKEditor
               editor={ClassicEditor}
               data={store.text} // Set the initial data
-              onChange={(event, editor) => {
+              onChange={(
+                event: CKEditorEventHandler<"change">,
+                editor: ClassicEditor
+              ) => {
                 store.text = editor.getData(); // Update the store's text property
               }}
               config={{
